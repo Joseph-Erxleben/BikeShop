@@ -1,12 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Choose_Your_Class
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            
-        }
     }
 }

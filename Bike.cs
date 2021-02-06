@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Choose_Your_Class
 {
-    class Bike
+    public class Bike
     {
+
+
+
     }
 }
