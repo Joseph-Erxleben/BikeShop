@@ -29,7 +29,10 @@ namespace Choose_Your_Class
             string shopName = "Bike Rentals R' US";
             int funds = 1000;
 
+
             string playerInput;
+
+            int bikeIndex;
             bool keepPlaying = true;
 
             string bikeType;
@@ -64,12 +67,68 @@ namespace Choose_Your_Class
 
                     case "3":
 
-                        Console.WriteLine("case 3");
+                        Console.WriteLine("Which bike do you want to repair?");
+
+                        int count = 1;
+                        foreach (Bike bike in listOfBikes)
+                        {
+                            if (bike.IsRented == false)
+                            {
+                                Console.WriteLine($"{count}. {bike.Color} {bike.Type} bike, with {bike.Durability}% durability.");
+                            }
+
+                            count++;
+                        }
+
+                        bikeIndex = Convert.ToInt32(Console.ReadLine());
+
+                        if (listOfBikes[bikeIndex - 1].IsRented == false)
+                        {
+                            listOfBikes[bikeIndex - 1].PerformMaintenance();
+                            Console.WriteLine($"You repaired the {listOfBikes[bikeIndex - 1].Color} {listOfBikes[bikeIndex - 1].Type} bike.");
+                        }   
+
+                        else
+                        {
+                            Console.WriteLine("You spend an hour looking for a bike that is currently rented out.");
+                        }
+                        
+
                         break;
 
                     case "4":
 
-                        Console.WriteLine("case 4");
+                        bikeIndex = -1;
+                        string customerFavoriteColor = RandomColor();
+
+                        foreach (Bike bike in listOfBikes)
+                        {
+                            if(customerFavoriteColor.Equals(bike.Color))
+                            {
+                                bikeIndex = listOfBikes.IndexOf(bike);
+                            }
+                        }
+
+                        if (bikeIndex == -1)
+                        {
+                            randomNumber = random.Next(1, listOfBikes.Count);
+                            randomNumber -= 1;
+
+                            listOfBikes[randomNumber].RentBike();
+                            funds += 60;
+
+                            Console.WriteLine($"A customer rented the {listOfBikes[randomNumber].Color} {listOfBikes[randomNumber].Type} bike at random.");
+                        }
+
+                        else
+                        {
+                            listOfBikes[bikeIndex].RentBike();
+
+                            funds += 60;
+
+                            Console.WriteLine($"A customer rented the {listOfBikes[bikeIndex].Color} {listOfBikes[bikeIndex].Type} because it is their favorite color!");
+                        }
+
                         break;
 
                     case "5":
@@ -112,17 +171,6 @@ namespace Choose_Your_Class
                 }
                     
             }
-
-
-
-
-
-
-
-
-
-
-
 
 
             void Tutorial()
