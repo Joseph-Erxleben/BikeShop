@@ -19,7 +19,7 @@ namespace Choose_Your_Class
 
             List<string> timeOfDay = new List<string>()
                 {
-                "0900", "1000", "1100", "1200", "1300", "1400", "1500", "1600", "1700"
+                "9:00 am", "10:00 am", "11:00 am", "12:00 pm", "1:00 pm", "2:00 pm", "3:00 pm", "4:00 pm"
                 };
             int hourIndex = 0;
 
@@ -29,21 +29,26 @@ namespace Choose_Your_Class
             string playerInput;
             bool keepPlaying = true;
 
+
             while (keepPlaying == true)
             {
                 Menu();
                 playerInput = Console.ReadLine();
+                Console.Clear();
 
                 switch (playerInput)
                 {
                     case "0":
 
                         Tutorial();
+
                         break;
 
                     case "1":
 
-                        Console.WriteLine("case 1");
+                        Console.WriteLine("What would you like to name your Bike Rental Shop?");
+                        shopName = Console.ReadLine();
+
                         break;
 
                     case "2":
@@ -76,6 +81,7 @@ namespace Choose_Your_Class
                 Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();
                 Console.Clear();
+                Tick();
                     
             }
 
@@ -105,7 +111,7 @@ namespace Choose_Your_Class
 
                 Console.WriteLine("\nThis is your main interface. It displays your shop name, the time of day and day of the week, and how much money you have available.");
                 Console.WriteLine("Let's start with your clock.");
-                Console.WriteLine("As an aspiring business-person, your shop will be open every day of the week, from 0900 to 1700.");
+                Console.WriteLine("As an aspiring business-person, your shop will be open every day of the week, from 9:00 am to 5:00 pm.");
                 Console.WriteLine("While we will cover what you can do during business hours a little later, for now know that time will progress on it's own.");
                 Console.WriteLine("$350 for rent will be automatically deducted from your account at the end of business hours every Saturday.");
                 Console.WriteLine("As you can see, you have $1000 left in the bank after setting up your business!");
@@ -156,6 +162,36 @@ namespace Choose_Your_Class
                 Console.WriteLine("6. Quit Game");
 
             }
+
+            void Tick()
+            {
+                hourIndex += 1;
+
+                if (hourIndex > 7)
+                {
+                    hourIndex = 0;
+                    dayIndex += 1;
+                    Console.WriteLine("your work day has come to an end, and you close up shop for the night.");
+
+                    if (dayIndex > 6)
+                    {
+                        dayIndex = 0;
+                        funds -= 350;
+                        Console.WriteLine("Another long week is over. Rent has been deducted from your account.");
+
+                        if (funds < 0)
+                        {
+                            Console.WriteLine("You were unable to pay rent when it was due. You are forced to close your shop.");
+                            keepPlaying = false;
+                        }
+                    }
+
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
+
 
 
 
