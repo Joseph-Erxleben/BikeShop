@@ -11,6 +11,9 @@ namespace Choose_Your_Class
 
             List<Bike> listOfBikes = new List<Bike>();
             Random random = new Random();
+
+            int randomNumber;
+
             List<string> daysOfWeek = new List<string>() 
                 {
                 "Sunday", "Monday", "Teusday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -28,6 +31,9 @@ namespace Choose_Your_Class
 
             string playerInput;
             bool keepPlaying = true;
+
+            string bikeType;
+            string bikeColor;
 
 
             while (keepPlaying == true)
@@ -53,7 +59,7 @@ namespace Choose_Your_Class
 
                     case "2":
 
-                        Console.WriteLine("case 2");
+                        BuyBike();
                         break;
 
                     case "3":
@@ -68,7 +74,18 @@ namespace Choose_Your_Class
 
                     case "5":
 
-                        Console.WriteLine("case 5");
+                        foreach (Bike bike in listOfBikes)
+                        {
+                            Console.Write($"The {bike.Color} {bike.Type} bike, with {bike.Durability}% Durability,");
+                            if (bike.IsRented == false)
+                            {
+                                Console.Write(" is currently in the shop.\n");
+                            }
+                            else
+                            {
+                                Console.Write($" is rented for {bike.RentalTimeRemaining} more hours.\n");
+                            }
+                        }
                         break;
 
                     case "6":
@@ -76,12 +93,23 @@ namespace Choose_Your_Class
                         Console.WriteLine("Thank you for playing!");
                         keepPlaying = false;
                         break;
+
+                    default:
+                        Console.WriteLine("You spend an hour playing on your phone, unsure of what to do.");
+                        break;
                 }
 
                 Console.WriteLine("Press any key to continue.");
                 Console.ReadKey();
                 Console.Clear();
-                Tick();
+                TimeTick();
+                foreach (Bike bike in listOfBikes)
+                {
+                    if (bike.IsRented == true)
+                    {
+                        bike.Tick();
+                    }
+                }
                     
             }
 
@@ -163,7 +191,7 @@ namespace Choose_Your_Class
 
             }
 
-            void Tick()
+            void TimeTick()
             {
                 hourIndex += 1;
 
@@ -192,9 +220,133 @@ namespace Choose_Your_Class
                 }
             }
 
+            void BuyBike()
+            {
+                Console.WriteLine("What kind of bike would you like to buy?");
+                Console.WriteLine("1. Mountain");
+                Console.WriteLine("2. Tandem");
+                Console.WriteLine("3. Recumbent");
+                playerInput = Console.ReadLine();
 
+                switch (playerInput)
+                {
+                    case "1":
+                        bikeType = "Mountain";
+                        break;
 
+                    case "2":
+                        bikeType = "Tandem";
+                        break;
 
+                    case "3":
+                        bikeType = "Recumbent";
+                        break;
+
+                    default:
+                        Console.WriteLine("Unable to choose, you picked one at random.");
+                        randomNumber = random.Next(1, 3);
+
+                        if (randomNumber == 1)
+                        {
+                            bikeType = "Mountain";
+                        }
+
+                        else if (randomNumber == 2)
+                        {
+                            bikeType = "Tandem";
+                        }
+
+                        else
+                        {
+                            bikeType = "Recumbent";
+                        }
+                        break;
+                }
+
+                Console.WriteLine($"What color should the bike be?");
+                Console.WriteLine("1. Red");
+                Console.WriteLine("2. Orange");
+                Console.WriteLine("3. Yellow");
+                Console.WriteLine("4. Green");
+                Console.WriteLine("5. Blue");
+                Console.WriteLine("6. Purple");
+                playerInput = Console.ReadLine();
+
+                switch (playerInput)
+                {
+                    case "1":
+                        bikeColor = "Red";
+                        break;
+
+                    case "2":
+                        bikeColor = "Orange";
+                        break;
+
+                    case "3":
+                        bikeColor = "Yellow";
+                        break;
+
+                    case "4":
+                        bikeColor = "Green";
+                        break;
+
+                    case "5":
+                        bikeColor = "Blue";
+                        break;
+
+                    case "6":
+                        bikeColor = "Purple";
+                        break;
+
+                    default:
+                        Console.WriteLine("Unable to choose, you picked one at random.");
+                        bikeColor = RandomColor();
+                        break;
+                }
+
+                listOfBikes.Add(new Bike(bikeType, bikeColor));
+                funds -= 150;
+
+            }
+
+            string RandomColor()
+            {
+                string randomColor;
+
+                randomNumber = random.Next(1, 6);
+
+                if (randomNumber == 1)
+                {
+                    randomColor = "Red";
+                }
+
+                else if (randomNumber == 2)
+                {
+                    randomColor = "Orange";
+                }
+
+                else if (randomNumber == 3)
+                {
+                    randomColor = "Yellow";
+                }
+
+                else if (randomNumber == 4)
+                {
+                    randomColor = "Green";
+                }
+
+                else if (randomNumber == 5)
+                {
+                    randomColor = "Blue";
+                }
+
+                else
+                {
+                    randomColor = "Purple";
+                }
+
+                return randomColor;
+            }
 
 
         }
